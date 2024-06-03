@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import IncomeForm from './IncomeForm';
+import { format, parseISO } from 'date-fns';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { BsThreeDotsVertical } from "react-icons/bs";
 
@@ -74,8 +75,8 @@ const Income: React.FC<IncomeProps> = ({ refreshCashflow }) => {
     };
 
     const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toISOString().replace('T', ' | ').slice(0, 21);
+        const date = parseISO(dateString);
+        return format(date, 'yyyy-MM-dd HH:mm:ss');
     };
 
     const toggleDropdown = (id: number) => {
