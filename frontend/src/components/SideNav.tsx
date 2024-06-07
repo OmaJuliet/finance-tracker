@@ -1,12 +1,8 @@
 'use client'
 import Link from "next/link";
 import { FaCog, FaFileInvoice, FaWallet, FaSignOutAlt, } from "react-icons/fa";
-import { GrTransaction } from "react-icons/gr";
 import { MdDashboard } from "react-icons/md";
-import { RiCustomerServiceLine } from "react-icons/ri";
-import { IoMdHelp } from "react-icons/io";
 import { usePathname } from 'next/navigation';
-import { useState } from "react";
 
 
 const SideNav = () => {
