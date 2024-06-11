@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import BudgetForm from './BudgetForm';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-
+import BarChart from './BarChart'; // Import BarChart component
+import PieChart from './PieChart'; // Import PieChart component
 
 interface Budget {
     id: number;
@@ -68,6 +69,11 @@ const Budget: React.FC = () => {
             console.error(error);
         }
     };
+
+    // Prepare data for charts
+    const categories = budgets.map(budget => budget.attributes.category);
+    const amounts = budgets.map(budget => budget.attributes.amount);
+
     return (
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 pl-6">
             <div className="container mx-auto py-6">
@@ -78,17 +84,14 @@ const Budget: React.FC = () => {
                     </button>
                 </section>
 
-
                 <section>
                     {budgets.length === 0 ? (
-                        <>
-                          <div className="container mx-auto py-6 flex justify-center">
-                           <p className="text-2xl text-gray-700">You haven't added a budget..</p>
-                          </div>
-                        </>
+                        <div className="container mx-auto py-6 flex justify-center">
+                            <p className="text-2xl text-gray-700">You haven't added a budget..</p>
+                        </div>
                     ) : (
                         <>
-                            <article className="lg:mt-5 pl-6 py-4 lg:w-full w-full lg:grid lg:gap-4 lg:grid-cols-3 lg:grid-rows-3 grid -m-4 md:grid md:gap-3 md:grid-cols-2 md:grid-rows-2">
+                            <article className="lg:mt-5 pl-6 pt-4 lg:w-full w-full lg:grid lg:gap-4 lg:grid-cols-3 lg:grid-rows-3 grid -m-4 md:grid md:gap-3 md:grid-cols-2 md:grid-rows-2">
                                 {budgets.map((budget) => (
                                     <article key={budget.id} className="h-full border-2 bg-gray-100 rounded-xl overflow-hidden">
                                         <article className="py-3 px-5 border-l-8 border-teal-500">
@@ -119,6 +122,12 @@ const Budget: React.FC = () => {
                                     </article>
                                 ))}
                             </article>
+                            
+                            {/* Rendering the charts */}
+                            <div className="">
+                                <BarChart categories={categories} amounts={amounts} />
+                                <PieChart categories={categories} amounts={amounts} />
+                            </div>
                         </>
                     )}
                 </section>
@@ -135,4 +144,4 @@ const Budget: React.FC = () => {
     )
 }
 
-export default Budget
+export default Budget;
