@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import BudgetForm from './BudgetForm';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import BarChart from './BarChart'; // Import BarChart component
-import PieChart from './PieChart'; // Import PieChart component
 
 interface Budget {
     id: number;
@@ -84,10 +82,7 @@ const Budget: React.FC = () => {
             console.error(error);
         }
     };
-
-    // Prepare data for charts
-    const categories = budgets.map(budget => budget.attributes.category);
-    const amounts = budgets.map(budget => budget.attributes.amount);
+   
     const totalBudgetedAmount = budgets.reduce((total, budget) => total + budget.attributes.amount, 0);
 
     return (
@@ -143,12 +138,6 @@ const Budget: React.FC = () => {
                                     </article>
                                 ))}
                             </article>
-                            
-                            {/* Rendering the charts */}
-                            <div className="">
-                                <BarChart categories={categories} amounts={amounts} />
-                                <PieChart categories={categories} amounts={amounts} />
-                            </div>
                         </>
                     )}
                 </section>
