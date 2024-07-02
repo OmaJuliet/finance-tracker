@@ -7,11 +7,11 @@ interface BudgetFormProps {
   onClose: () => void;
   setBudgets: React.Dispatch<React.SetStateAction<Budget[]>>;
   selectedBudget: Budget | null;
+  budgetLimit: number | null;
+  totalBudgetedAmount: number;
 }
 
-
-const BudgetForm: React.FC<BudgetFormProps> = ({ onClose, setBudgets, selectedBudget }) => {
-  const initialState = {
+const BudgetForm: React.FC<BudgetFormProps> = ({ onClose, setBudgets, selectedBudget, budgetLimit, totalBudgetedAmount }) => {   const initialState = {
     category: 'food',
     amount: 0,
   };
@@ -21,6 +21,8 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onClose, setBudgets, selectedBu
   }
 
   const [formFields, dispatch] = useReducer(reducer, initialState);
+  const [error, setError] = useState<string | null>(null);//
+
 
   useEffect(() => {
     if (selectedBudget) {
@@ -43,30 +45,39 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onClose, setBudgets, selectedBu
   const handleSendBudget = async () => {
     try {
       const { category, amount } = formFields;
+      const newAmount = parseFloat(amount);
+      const currentAmount = selectedBudget ? selectedBudget.attributes.amount : 0;
+      const newTotal = totalBudgetedAmount - currentAmount + newAmount;
+
+      if (budgetLimit !== null && newTotal > budgetLimit) {
+        setError("You've exceeded the budget limit for this month");
+        return;
+      }
 
       if (selectedBudget) {
-        // Update an existing budget field
+        // Update an existing budget
         const data = await axios.put(`http://localhost:1337/api/budgets/${selectedBudget.id}`, {
-          data: { category, amount },
+          data: { category, amount: newAmount },
         });
-        console.log(data)
-        setBudgets((prev) => prev.map((inv) => (inv.id === selectedBudget.id ? { ...inv, ...formFields } : inv)));
-        window.location.reload()
+        console.log(data);
+        setBudgets((prev) => prev.map((inv) => (inv.id === selectedBudget.id ? { ...inv, ...formFields, amount: newAmount } : inv)));
+        window.location.reload();
       } else {
         // Create a new budget
         const { data } = await axios.post('http://localhost:1337/api/budgets', {
-          data: { category, amount },
+          data: { category, amount: newAmount },
         });
         console.log(data);
         setBudgets((prev) => [...prev, data.data]);
       }
 
+      setError(null);
       onClose();
     } catch (error) {
       console.error(error);
+      setError("An error occurred while saving the budget.");
     }
   };
-
 
   return (
     <>
@@ -116,6 +127,9 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onClose, setBudgets, selectedBu
               </div>
             </div>
 
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+
+
             <div className="mt-4 flex justify-center">
               <button
                 type="button"
@@ -128,6 +142,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onClose, setBudgets, selectedBu
           </form>
         </section>
       </main>
+
     </>
   );
 };
