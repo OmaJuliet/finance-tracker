@@ -19,8 +19,6 @@ const BarChart: React.FC<BarChartProps> = ({ categories, amounts }) => {
                         {
                             label: 'Budget Amount',
                             data: amounts,
-                            // backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                            // borderColor: 'rgba(75, 192, 192, 1)',
                             backgroundColor: [
                                 'rgba(75, 192, 192, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',
@@ -47,13 +45,13 @@ const BarChart: React.FC<BarChartProps> = ({ categories, amounts }) => {
                             text: 'Budget data - bar chart',
                             padding: {
                                 top: 10,
-                                bottom: 30
-                            }
-                        }
+                                bottom: 30,
+                            },
+                        },
                     },
                     animation: {
-                        duration: 9000, // Increase the duration
-                        easing: 'easeOutElastic', // Using the easing function
+                        duration: 9000,
+                        easing: 'easeOutElastic',
                     },
                 },
             });

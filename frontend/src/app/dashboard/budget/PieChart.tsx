@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-
 Chart.register(ChartDataLabels);
 
 interface PieChartProps {
@@ -47,15 +46,15 @@ const PieChart: React.FC<PieChartProps> = ({ categories, amounts }) => {
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false, // Disable the default aspect ratio
+                    maintainAspectRatio: false,
                     plugins: {
                         title: {
                             display: true,
                             text: 'Budget data - pie chart',
                             padding: {
                                 top: 10,
-                                bottom: 30
-                            }
+                                bottom: 30,
+                            },
                         },
                         datalabels: {
                             color: 'white',
@@ -66,8 +65,8 @@ const PieChart: React.FC<PieChartProps> = ({ categories, amounts }) => {
                         },
                     },
                     animation: {
-                        duration: 9000, // Increase the duration
-                        easing: 'easeOutBounce', // Use a more noticeable easing function
+                        duration: 9000,
+                        easing: 'easeOutBounce',
                     },
                 },
             });
@@ -83,7 +82,6 @@ const PieChart: React.FC<PieChartProps> = ({ categories, amounts }) => {
             <canvas ref={chartRef} width="700" height="700" aria-label="Hello ARIA World" role="img" />
         </div>
     );
-
 };
 
 export default PieChart;
