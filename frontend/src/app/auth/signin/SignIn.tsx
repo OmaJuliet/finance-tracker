@@ -43,6 +43,9 @@ const SignIn: React.FC = () => {
                 theme: "light",
             });
 
+            // Save user information in local storage
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+
             // Redirect to the dashboard page
             if (typeof window !== 'undefined') {
               router.push('/dashboard');
