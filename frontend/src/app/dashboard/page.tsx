@@ -134,7 +134,8 @@ const Overview = () => {
                     {report && (
                         <div className="mb-10 p-5 bg-gray-100 rounded-lg">
                             <h3 className="text-xl font-semibold mb-2">Financial report</h3>
-                            <p>{report}</p>
+                            {/* <p>{report}</p> */}
+                            <div dangerouslySetInnerHTML={{ __html: report }}></div>
                         </div>
                     )}
                 </div>

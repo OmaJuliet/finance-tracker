@@ -27,20 +27,24 @@ module.exports = {
       maxExpenseAmount = maxExpense.amount;
     }
 
-    // Generate personalized report
-    let report = 'Based on your data:\n';
-    budgets.forEach(budget => {
-      report += `Your budget for '${budget.category}' is '${budget.amount}'.\n`;
-    });
+    let report = '';
+
+    // Analyze and generate the report string
+    if (budgets.length > 0) {
+        report += 'Based on your data: ';
+        budgets.forEach(budget => {
+            report += `your budget for '${budget.category}' is '${budget.amount}', `;
+        });
+        report += '<br>';
+    }
+
 
     if (expenses.length > 0) {
-      report += `You are spending more on '${maxExpenseCategory}' than other expenses.\n`;
-      report += `You've spent a total of '${totalExpenses}' on expenses while having an inflow/income of '${totalIncomes}' `;
-
+      report += `You are spending more on <strong>${maxExpenseCategory}</strong> than other expenses. <br>`;
       if (totalExpenses >= totalIncomes) {
-        report += ", meaning you're close to spending more than you earned. Oops!🙁. Don't let that happen. \n";
+        report += `You've spent a total of <strong>$${totalExpenses}</strong> on expenses while having an inflow/income of <strong>$${totalIncomes}</strong>, meaning you've spent more than you earned. Oops!🙁. <br>`;
       } else {
-        report += ", meaning you've managed to spend less than you earned. Kudos 🎉.\n";
+        report += `You've spent a total of <strong>$${totalExpenses}</strong> on expenses while having an inflow/income of <strong>$${totalIncomes}</strong>, meaning you managed to spend less than you earned. Kudos 🎉. <br>`;
       }
     }
 
