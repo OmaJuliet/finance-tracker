@@ -10,7 +10,7 @@ const SideNav = () => {
 
 
   return (
-    <aside className="h-screen w-56 border-r-2 border-gray-300">
+    <aside className="h-screen w-56 border-r-2 border-gray-300"> 
       <section className="flex flex-col mt-8 ml-8 text-gray-600">
         {/* <section className=""> */}
         <figure className="flex pb-5">
