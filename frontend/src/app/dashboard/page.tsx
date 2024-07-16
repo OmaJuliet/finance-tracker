@@ -1,10 +1,16 @@
 'use client'
 import SideNav from '@/components/SideNav';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import BarChart from './budget/BarChart';
 import PieChart from './budget/PieChart';
+import htmlToPdfmake from 'html-to-pdfmake';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import html2canvas from 'html2canvas';
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const Overview = () => {
     const [budgets, setBudgets] = useState<{ category: string; amount: number; }[]>([]);
@@ -14,6 +20,7 @@ const Overview = () => {
     const [report, setReport] = useState('');
     const [user, setUser] = useState<{ username: string, email: string } | null>(null);
     const router = useRouter();
+    const chartRef = useRef(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -79,6 +86,37 @@ const Overview = () => {
         }
     };
 
+    const printReport = async () => {
+        try {
+            const printContent = document.getElementById('report-content')?.innerHTML;
+            const chartCanvas = chartRef.current;
+
+            if (printContent && chartCanvas) {
+                const canvas = await html2canvas(chartCanvas);
+                const chartImage = canvas.toDataURL('image/png');
+
+                const docDefinition = {
+                    content: [
+                        { text: 'Financial Report', style: 'header' },
+                        { image: chartImage, width: 500 },
+                        htmlToPdfmake(printContent)
+                    ],
+                    styles: {
+                        header: {
+                            fontSize: 18,
+                            bold: true,
+                            margin: [0, 0, 0, 10]
+                        }
+                    }
+                };
+
+                pdfMake.createPdf(docDefinition).download('financial_report.pdf');
+            }
+        } catch (error) {
+            console.error('Failed to generate PDF:', error);
+        }
+    };
+
     const categories = budgets.map(budget => budget.category);
     const amounts = budgets.map(budget => budget.amount);
 
@@ -111,7 +149,7 @@ const Overview = () => {
                         </div>
                     ) : (
                         <>
-                            <section className="mt-5">
+                            <section className="mt-5" ref={chartRef}>
                                 {chartType === 'bar' ? (
                                     <BarChart categories={categories} amounts={amounts} />
                                 ) : (
@@ -120,7 +158,6 @@ const Overview = () => {
                             </section>
                         </>
                     )}
-
 
                     <div className="container mx-auto py-5 flex justify-center">
                         <button
@@ -133,9 +170,14 @@ const Overview = () => {
 
                     {report && (
                         <div className="mb-10 p-5 bg-gray-100 rounded-lg">
-                            <h3 className="text-xl font-semibold mb-2">Financial report</h3>
-                            {/* <p>{report}</p> */}
-                            <div dangerouslySetInnerHTML={{ __html: report }}></div>
+                            <h3 className="text-xl font-semibold mb-2">Financial Report</h3>
+                            <div id="report-content" dangerouslySetInnerHTML={{ __html: report }}></div>
+                            <button
+                                onClick={printReport}
+                                className="mt-4 bg-teal-500 text-white py-2 px-4 rounded-lg"
+                            >
+                                Export as PDF
+                            </button>
                         </div>
                     )}
                 </div>

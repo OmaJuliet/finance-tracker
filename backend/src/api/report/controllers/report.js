@@ -29,24 +29,25 @@ module.exports = {
 
     let report = '';
 
-    // Analyze and generate the report string
+    // Analyze and generate the report string for budget data
     if (budgets.length > 0) {
         report += 'Based on your data: ';
         budgets.forEach(budget => {
-            report += `your budget for '${budget.category}' is '${budget.amount}', `;
+            report += `your budget for '${budget.category}' is '${budget.amount}'. `;
         });
         report += '<br>';
     }
 
 
-    if (expenses.length > 0) {
-      report += `You are spending more on <strong>${maxExpenseCategory}</strong> than other expenses. <br>`;
-      if (totalExpenses >= totalIncomes) {
-        report += `You've spent a total of <strong>$${totalExpenses}</strong> on expenses while having an inflow/income of <strong>$${totalIncomes}</strong>, meaning you've spent more than you earned. Oops!🙁. <br>`;
-      } else {
-        report += `You've spent a total of <strong>$${totalExpenses}</strong> on expenses while having an inflow/income of <strong>$${totalIncomes}</strong>, meaning you managed to spend less than you earned. Kudos 🎉. <br>`;
-      }
-    }
+    // To generate report for income and expenses
+    // if (expenses.length > 0) {
+    //   report += `You are spending more on <strong>${maxExpenseCategory}</strong> than other expenses. <br>`;
+    //   if (totalExpenses >= totalIncomes) {
+    //     report += `You've spent a total of <strong>$${totalExpenses}</strong> on expenses while having an inflow/income of <strong>$${totalIncomes}</strong>, meaning you've spent more than you earned. Oops!🙁. <br>`;
+    //   } else {
+    //     report += `You've spent a total of <strong>$${totalExpenses}</strong> on expenses while having an inflow/income of <strong>$${totalIncomes}</strong>, meaning you managed to spend less than you earned. Kudos 🎉. <br>`;
+    //   }
+    // }
 
     const createdReport = await strapi.query('api::report.report').create({
       data: { report },
