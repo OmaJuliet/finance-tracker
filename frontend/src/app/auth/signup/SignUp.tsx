@@ -122,25 +122,6 @@ const SignUp: React.FC = () => {
                             Sign up
                         </button>
 
-                        <div
-                            className="w-96 my-3 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                            <p
-                                className="mx-4 mb-0 text-center dark:text-black">
-                                OR
-                            </p>
-                        </div>
-
-                        <section className="container mx-auto flex justify-center my-4">
-                            <div className="flex flex-col w-full">
-                                <button
-                                    type="button"
-                                    className="w-full cursor-pointer flex justify-center lg:max-w-sm bg-white my-2 border-black border-2 rounded-lg py-4 text-black">
-                                    <FcGoogle className="mr-2 mt-1 h-5 w-5" />
-                                    SIGN UP WITH GOOGLE
-                                </button>
-                            </div>
-                        </section>
-
 
                         <p className="text-gray-500">
                             Already have an account?
