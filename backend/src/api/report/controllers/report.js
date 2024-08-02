@@ -33,7 +33,7 @@ module.exports = {
     if (budgets.length > 0) {
         report += 'Based on your data: ';
         budgets.forEach(budget => {
-            report += `your budget for '${budget.category}' is '${budget.amount}'. `;
+            report += `Your budget for '${budget.category}' is '${budget.amount}'. `;
         });
         report += '<br>';
     }
