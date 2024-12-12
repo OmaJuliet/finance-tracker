@@ -4,7 +4,6 @@ import axios from 'axios';
 import BudgetForm from './BudgetForm';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
-
 interface Budget {
     id: number;
     attributes: {
@@ -83,7 +82,7 @@ const Budget: React.FC = () => {
             console.error(error);
         }
     };
-
+   
     const totalBudgetedAmount = budgets.reduce((total, budget) => total + budget.attributes.amount, 0);
 
     return (
@@ -95,7 +94,6 @@ const Budget: React.FC = () => {
                         Add a budget
                     </button>
                 </section>
-
                 <section className="w-full flex flex-row justify-between py-4 px-[15px]">
                     <h3 className="text-xl text-gray-700 font-medium">Budget Limit: ${budgetLimit}</h3>
                     <h3 className="text-xl text-gray-700 font-medium">Total Budgeted: ${totalBudgetedAmount}</h3>
@@ -104,14 +102,12 @@ const Budget: React.FC = () => {
 
                 <section>
                     {budgets.length === 0 ? (
-                        <>
-                          <div className="container mx-auto py-6 flex justify-center">
-                           <p className="text-2xl text-gray-700">You haven't added a budget..</p>
-                          </div>
-                        </>
+                        <div className="container mx-auto py-6 flex justify-center">
+                            <p className="text-2xl text-gray-700">You haven't added a budget..</p>
+                        </div>
                     ) : (
                         <>
-                            <article className="lg:mt-5 pl-6 py-4 lg:w-full w-full lg:grid lg:gap-4 lg:grid-cols-3 lg:grid-rows-3 grid -m-4 md:grid md:gap-3 md:grid-cols-2 md:grid-rows-2">
+                            <article className="lg:mt-5 pl-6 pt-4 lg:w-full w-full lg:grid lg:gap-4 lg:grid-cols-3 lg:grid-rows-3 grid -m-4 md:grid md:gap-3 md:grid-cols-2 md:grid-rows-2">
                                 {budgets.map((budget) => (
                                     <article key={budget.id} className="h-full border-2 bg-gray-100 rounded-xl overflow-hidden">
                                         <article className="py-3 px-5 border-l-8 border-teal-500">
@@ -160,4 +156,4 @@ const Budget: React.FC = () => {
     )
 }
 
-export default Budget
+export default Budget;
